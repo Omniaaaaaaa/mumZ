@@ -3,7 +3,6 @@ import 'package:record/record.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 
-// الصفحة الأولى - التسجيل
 class VoiceRecordingPage extends StatefulWidget {
   const VoiceRecordingPage({Key? key}) : super(key: key);
 

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'login.dart';
@@ -10,6 +12,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -34,6 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: Container(
         width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -295,34 +301,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                   const SizedBox(height: 30),
 
-                  // Sign Up Button
                   SizedBox(
                     width: double.infinity,
                     height: 56,
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (!_agreedToTerms) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('يرجى الموافقة على الشروط والأحكام'),
-                              backgroundColor: Colors.red,
-                            ),
-                          );
-                          return;
-                        }
+                     onPressed: () async {
+  if (!_agreedToTerms) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('يرجى الموافقة على الشروط والأحكام'),
+        backgroundColor: Colors.red,
+      ),
+    );
+    return;
+  }
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(
-                              userName: _nameController.text,
-                              childName: _childNameController.text,
-                              childBirth: _childBirthController.text,
-                            ),
-                          ),
-                        );
-                      },
+  bool success = await signUp();
+  if (success) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(
+          userName: _nameController.text.trim(),
+          childName: _childNameController.text.trim(),
+          childBirth: _childBirthController.text.trim(),
+        ),
+
+
+      ),
+    );
+  }
+},
                       style: ElevatedButton.styleFrom(
+
+
                         backgroundColor: const Color(0xFFFF9E8B),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
@@ -391,5 +403,93 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+
+
+
+    
+  }
+
+Future<bool> signUp() async {
+  final name = _nameController.text.trim();
+  final email = _emailController.text.trim();
+  final password = _passwordController.text.trim();
+  final childName = _childNameController.text.trim();
+  final childBirth = _childBirthController.text.trim();
+
+  if (name.isEmpty ||
+      email.isEmpty ||
+      password.isEmpty ||
+      childName.isEmpty ||
+      childBirth.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('يرجى ملء جميع الحقول')),
+    );
+    return false;
+  }
+
+  if (!email.contains('@')) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('يرجى إدخال بريد إلكتروني صالح')),
+    );
+    return false;
+  }
+
+
+  DateTime? birthDate;
+  try {
+    birthDate = DateTime.parse(childBirth);
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('تاريخ الميلاد غير صالح')),
+    );
+    return false;
+  }
+
+  try {
+    final userCredential = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    final user = userCredential.user;
+    if (user != null) {
+      final today = DateTime.now();
+      final age = today.year - birthDate.year -
+          ((today.month < birthDate.month ||
+                  (today.month == birthDate.month &&
+                      today.day < birthDate.day))
+              ? 1
+              : 0);
+
+      await _firestore.collection('users').doc(user.uid).set({
+        'name': name,
+        'email': email,
+        'childName': childName,
+        'birthdate': childBirth,
+        'age': age,
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('تم إنشاء الحساب بنجاح!')),
+      );
+
+      return true;
+    }
+    return false;
+  } on FirebaseAuthException catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(e.message ?? 'حدث خطأ')),
+    );
+    return false;
+  } catch (e) {
+    print('Other Exception: $e');
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('حدث خطأ غير متوقع')),
+    );
+    return false;
   }
 }
+}
+
+
+

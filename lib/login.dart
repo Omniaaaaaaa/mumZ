@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mamyapp/home_page.dart';
 import 'package:mamyapp/signup_screen.dart';
 import 'app_colors.dart';
 import 'Reset _Password.dart'; // ← مهم جداً
@@ -11,6 +13,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final _auth = FirebaseAuth.instance;
+
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
@@ -200,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: double.infinity,
                   height: 55,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: loginUser,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.loginButtonColor,
                       foregroundColor: AppColors.white,
@@ -260,4 +266,47 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+Future<void> loginUser() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('يرجى ملء البريد الإلكتروني وكلمة السر')),
+      );
+      return;
+    }
+
+    try {
+      final userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      final user = userCredential.user;
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(
+              userName: 'User',      
+              childName: 'Child',    
+              childBirth: 'Birthdate',
+            ),
+          ),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message ?? ' error')),
+      );
+    } catch (e) {
+      print('Other Exception: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('error   ')),
+      );
+    }
+  }
+
 }
