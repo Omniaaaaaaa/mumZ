@@ -165,7 +165,6 @@ class Login extends StatelessWidget {
 
                       const SizedBox(height: 30),
 
-                      // --- 3. Login Button ---
                       SizedBox(
                         width: double.infinity,
                         height: 55,
@@ -210,7 +209,6 @@ class Login extends StatelessWidget {
 
                       const SizedBox(height: 25),
 
-                      // --- 4. Footer Section ---
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

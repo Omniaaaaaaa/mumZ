@@ -1,10 +1,9 @@
-// lib/features/auth/domain/usecases/sign_up_usecase.dart
 import '../repositories/auth_repository.dart';
 import '../../data/models/user_model.dart';
 
 class SignUpUseCase {
   final AuthRepository repository;
-  SignUpUseCase(this.repository);
+  SignUpUseCase(this.repository); 
 
   Future<UserModel> call({
     required String name,

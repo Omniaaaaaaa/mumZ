@@ -1,18 +1,17 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mamyapp/features/auth/presentation/bloc/auth_Bloc.dart';
-import 'package:mamyapp/features/auth/presentation/bloc/auth_event.dart';
+// شيلي import البلوك من هنا خالص، مش محتاجينه
 
 class PasswordField extends StatelessWidget {
   final TextEditingController controller;
   final bool isPasswordVisible;
+  // 1. ضفنا متغير للكول باك (الأمر اللي هيتنفذ)
+  final VoidCallback? onVisibilityToggle; 
 
   const PasswordField({
     super.key,
     required this.controller,
     required this.isPasswordVisible,
+    this.onVisibilityToggle, // 2. نستقبله في الكونستركتور
   });
 
   @override
@@ -23,6 +22,7 @@ class PasswordField extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
+            // ignore: deprecated_member_use
             color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
@@ -50,8 +50,8 @@ class PasswordField extends StatelessWidget {
                   : Icons.visibility_off_outlined,
               color: Colors.grey[400],
             ),
-            onPressed: () =>
-                context.read<AuthBloc>().add(AuthPasswordVisibilityToggled()),
+            // 3. هنا بننفذ الأمر اللي جاي من برا، بدل ما ننادي البلوك مباشر
+            onPressed: onVisibilityToggle, 
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
