@@ -1,495 +1,495 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'home_page.dart';
-import 'login.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:flutter/material.dart';
+// import 'home_page.dart';
+// import 'login.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+// class SignUpScreen extends StatefulWidget {
+//   const SignUpScreen({Key? key}) : super(key: key);
 
-  @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
-}
+//   @override
+//   State<SignUpScreen> createState() => _SignUpScreenState();
+// }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  final _auth = FirebaseAuth.instance;
-  final _firestore = FirebaseFirestore.instance;
+// class _SignUpScreenState extends State<SignUpScreen> {
+//   final _auth = FirebaseAuth.instance;
+//   final _firestore = FirebaseFirestore.instance;
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _childNameController = TextEditingController();
-  final TextEditingController _childBirthController = TextEditingController();
+//   final TextEditingController _nameController = TextEditingController();
+//   final TextEditingController _emailController = TextEditingController();
+//   final TextEditingController _passwordController = TextEditingController();
+//   final TextEditingController _childNameController = TextEditingController();
+//   final TextEditingController _childBirthController = TextEditingController();
 
-  bool _isPasswordVisible = false;
-  bool _agreedToTerms = false;
+//   bool _isPasswordVisible = false;
+//   bool _agreedToTerms = false;
 
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _childNameController.dispose();
-    _childBirthController.dispose();
-    super.dispose();
-  }
+//   @override
+//   void dispose() {
+//     _nameController.dispose();
+//     _emailController.dispose();
+//     _passwordController.dispose();
+//     _childNameController.dispose();
+//     _childBirthController.dispose();
+//     super.dispose();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFFFFFFF),
-              Color(0xFFFEF4E9),
-              Color(0xFFFBD8BA),
-            ],
-          ),
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_back),
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                  ),
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Container(
+//         width: double.infinity,
+//         height: double.infinity,
+//         decoration: const BoxDecoration(
+//           gradient: LinearGradient(
+//             begin: Alignment.topCenter,
+//             end: Alignment.bottomCenter,
+//             colors: [
+//               Color(0xFFFFFFFF),
+//               Color(0xFFFEF4E9),
+//               Color(0xFFFBD8BA),
+//             ],
+//           ),
+//         ),
+//         child: SafeArea(
+//           child: SingleChildScrollView(
+//             child: Padding(
+//               padding: const EdgeInsets.all(24.0),
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   IconButton(
+//                     onPressed: () => Navigator.pop(context),
+//                     icon: const Icon(Icons.arrow_back),
+//                     padding: EdgeInsets.zero,
+//                     constraints: const BoxConstraints(),
+//                   ),
 
-                  const SizedBox(height: 40),
+//                   const SizedBox(height: 40),
 
-                  // Logo + Text
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Texts
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: const [
-                            Text(
-                              'مرحباً',
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF173F7B),
-                              ),
-                            ),
-                            SizedBox(height: 4),
-                            Text(
-                              'يرجى إدخال البيانات لإنشاء حسابك وحساب طفلك.',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF7F8C8D),
-                                height: 1.5,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+//                   // Logo + Text
+//                   Row(
+//                     crossAxisAlignment: CrossAxisAlignment.center,
+//                     children: [
+//                       // Texts
+//                       Expanded(
+//                         child: Column(
+//                           crossAxisAlignment: CrossAxisAlignment.end,
+//                           children: const [
+//                             Text(
+//                               'مرحباً',
+//                               style: TextStyle(
+//                                 fontSize: 28,
+//                                 fontWeight: FontWeight.bold,
+//                                 color: Color(0xFF173F7B),
+//                               ),
+//                             ),
+//                             SizedBox(height: 4),
+//                             Text(
+//                               'يرجى إدخال البيانات لإنشاء حسابك وحساب طفلك.',
+//                               style: TextStyle(
+//                                 fontSize: 14,
+//                                 color: Color(0xFF7F8C8D),
+//                                 height: 1.5,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
 
-                      const SizedBox(width: 16),
+//                       const SizedBox(width: 16),
 
-                      // Logo
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.asset(
-                            'assets/images/image-removebg-preview 1.png',
-                            width: 60,
-                            height: 60,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+//                       // Logo
+//                       Container(
+//                         width: 60,
+//                         height: 60,
+//                         decoration: BoxDecoration(
+//                           color: Colors.white,
+//                           borderRadius: BorderRadius.circular(15),
+//                           boxShadow: [
+//                             BoxShadow(
+//                               color: Colors.black.withOpacity(0.1),
+//                               blurRadius: 10,
+//                               offset: const Offset(0, 4),
+//                             ),
+//                           ],
+//                         ),
+//                         child: ClipRRect(
+//                           borderRadius: BorderRadius.circular(15),
+//                           child: Image.asset(
+//                             'assets/images/image-removebg-preview 1.png',
+//                             width: 60,
+//                             height: 60,
+//                             fit: BoxFit.cover,
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
 
-                  const SizedBox(height: 30),
+//                   const SizedBox(height: 30),
 
-                  // Child Name
-                  _buildTextField(
-                    controller: _childNameController,
-                    hint: 'اسم الطفل',
-                    icon: Icons.child_care_outlined,
-                  ),
+//                   // Child Name
+//                   _buildTextField(
+//                     controller: _childNameController,
+//                     hint: 'اسم الطفل',
+//                     icon: Icons.child_care_outlined,
+//                   ),
 
-                  const SizedBox(height: 16),
+//                   const SizedBox(height: 16),
 
-                  // Child Birth Date Picker
-                  GestureDetector(
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime(2020, 1, 1),
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime.now(),
-                      );
-                      if (pickedDate != null) {
-                        setState(() {
-                          _childBirthController.text =
-                          "${pickedDate.year}-${pickedDate.month.toString().padLeft(2,'0')}-${pickedDate.day.toString().padLeft(2,'0')}";
-                        });
-                      }
-                    },
-                    child: AbsorbPointer(
-                      child: _buildTextField(
-                        controller: _childBirthController,
-                        hint: 'تاريخ ميلاد الطفل',
-                        icon: Icons.calendar_today_outlined,
-                        keyboardType: TextInputType.datetime,
-                      ),
-                    ),
-                  ),
+//                   // Child Birth Date Picker
+//                   GestureDetector(
+//                     onTap: () async {
+//                       DateTime? pickedDate = await showDatePicker(
+//                         context: context,
+//                         initialDate: DateTime(2020, 1, 1),
+//                         firstDate: DateTime(2000),
+//                         lastDate: DateTime.now(),
+//                       );
+//                       if (pickedDate != null) {
+//                         setState(() {
+//                           _childBirthController.text =
+//                           "${pickedDate.year}-${pickedDate.month.toString().padLeft(2,'0')}-${pickedDate.day.toString().padLeft(2,'0')}";
+//                         });
+//                       }
+//                     },
+//                     child: AbsorbPointer(
+//                       child: _buildTextField(
+//                         controller: _childBirthController,
+//                         hint: 'تاريخ ميلاد الطفل',
+//                         icon: Icons.calendar_today_outlined,
+//                         keyboardType: TextInputType.datetime,
+//                       ),
+//                     ),
+//                   ),
 
-                  const SizedBox(height: 16),
+//                   const SizedBox(height: 16),
 
-                  // Name Field
-                  _buildTextField(
-                    controller: _nameController,
-                    hint: 'اسم المستخدم',
-                    icon: Icons.person_outline,
-                  ),
+//                   // Name Field
+//                   _buildTextField(
+//                     controller: _nameController,
+//                     hint: 'اسم المستخدم',
+//                     icon: Icons.person_outline,
+//                   ),
 
-                  const SizedBox(height: 16),
+//                   const SizedBox(height: 16),
 
-                  // Email Field
-                  _buildTextField(
-                    controller: _emailController,
-                    hint: 'البريد الإلكتروني',
-                    icon: Icons.email_outlined,
-                    keyboardType: TextInputType.emailAddress,
-                  ),
+//                   // Email Field
+//                   _buildTextField(
+//                     controller: _emailController,
+//                     hint: 'البريد الإلكتروني',
+//                     icon: Icons.email_outlined,
+//                     keyboardType: TextInputType.emailAddress,
+//                   ),
 
-                  const SizedBox(height: 16),
+//                   const SizedBox(height: 16),
 
-                  // Password Field
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 10,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: TextField(
-                      controller: _passwordController,
-                      obscureText: !_isPasswordVisible,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(fontSize: 16),
-                      decoration: InputDecoration(
-                        hintText: 'كلمة السر',
-                        hintStyle: TextStyle(
-                          color: Colors.grey[400],
-                          fontSize: 15,
-                        ),
-                        prefixIcon: Icon(
-                          Icons.lock_outline,
-                          color: Colors.grey[400],
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                            color: Colors.grey[400],
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isPasswordVisible = !_isPasswordVisible;
-                            });
-                          },
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 16,
-                        ),
-                      ),
-                    ),
-                  ),
+//                   // Password Field
+//                   Container(
+//                     decoration: BoxDecoration(
+//                       color: Colors.white,
+//                       borderRadius: BorderRadius.circular(30),
+//                       boxShadow: [
+//                         BoxShadow(
+//                           color: Colors.black.withOpacity(0.05),
+//                           blurRadius: 10,
+//                           offset: const Offset(0, 2),
+//                         ),
+//                       ],
+//                     ),
+//                     child: TextField(
+//                       controller: _passwordController,
+//                       obscureText: !_isPasswordVisible,
+//                       textAlign: TextAlign.right,
+//                       style: const TextStyle(fontSize: 16),
+//                       decoration: InputDecoration(
+//                         hintText: 'كلمة السر',
+//                         hintStyle: TextStyle(
+//                           color: Colors.grey[400],
+//                           fontSize: 15,
+//                         ),
+//                         prefixIcon: Icon(
+//                           Icons.lock_outline,
+//                           color: Colors.grey[400],
+//                         ),
+//                         suffixIcon: IconButton(
+//                           icon: Icon(
+//                             _isPasswordVisible
+//                                 ? Icons.visibility_outlined
+//                                 : Icons.visibility_off_outlined,
+//                             color: Colors.grey[400],
+//                           ),
+//                           onPressed: () {
+//                             setState(() {
+//                               _isPasswordVisible = !_isPasswordVisible;
+//                             });
+//                           },
+//                         ),
+//                         border: OutlineInputBorder(
+//                           borderRadius: BorderRadius.circular(30),
+//                           borderSide: BorderSide.none,
+//                         ),
+//                         contentPadding: const EdgeInsets.symmetric(
+//                           horizontal: 20,
+//                           vertical: 16,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
 
-                  const SizedBox(height: 20),
+//                   const SizedBox(height: 20),
 
-                  // Terms & Conditions
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _agreedToTerms,
-                        onChanged: (value) {
-                          setState(() {
-                            _agreedToTerms = value ?? false;
-                          });
-                        },
-                        activeColor: const Color(0xFF173F7B),
-                      ),
-                      Expanded(
-                        child: Text(
-                          'أوافق على شروط الخدمة وسياسة الخصوصية المعمول بها BabyCare الخاصة',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+//                   // Terms & Conditions
+//                   Row(
+//                     children: [
+//                       Checkbox(
+//                         value: _agreedToTerms,
+//                         onChanged: (value) {
+//                           setState(() {
+//                             _agreedToTerms = value ?? false;
+//                           });
+//                         },
+//                         activeColor: const Color(0xFF173F7B),
+//                       ),
+//                       Expanded(
+//                         child: Text(
+//                           'أوافق على شروط الخدمة وسياسة الخصوصية المعمول بها BabyCare الخاصة',
+//                           style: TextStyle(
+//                             fontSize: 12,
+//                             color: Colors.grey[600],
+//                             height: 1.5,
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
 
-                  const SizedBox(height: 20),
+//                   const SizedBox(height: 20),
 
-                  // Already have account
-                  Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                        );
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF7F8C8D),
-                          ),
-                          children: [
-                            const TextSpan(text: 'لديك حساب بالفعل؟ '),
-                            TextSpan(
-                              text: 'تسجيل الدخول',
-                              style: TextStyle(
-                                color: Colors.red[400],
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+//                   // Already have account
+//                   Center(
+//                     child: GestureDetector(
+//                       onTap: () {
+//                         Navigator.push(
+//                           context,
+//                           MaterialPageRoute(
+//                             builder: (context) => const LoginPage(),
+//                           ),
+//                         );
+//                       },
+//                       child: RichText(
+//                         text: TextSpan(
+//                           style: const TextStyle(
+//                             fontSize: 14,
+//                             color: Color(0xFF7F8C8D),
+//                           ),
+//                           children: [
+//                             const TextSpan(text: 'لديك حساب بالفعل؟ '),
+//                             TextSpan(
+//                               text: 'تسجيل الدخول',
+//                               style: TextStyle(
+//                                 color: Colors.red[400],
+//                                 fontWeight: FontWeight.w600,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ),
 
-                  const SizedBox(height: 30),
+//                   const SizedBox(height: 30),
 
-                  SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: ElevatedButton(
-                     onPressed: () async {
-  if (!_agreedToTerms) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('يرجى الموافقة على الشروط والأحكام'),
-        backgroundColor: Colors.red,
-      ),
-    );
-    return;
-  }
+//                   SizedBox(
+//                     width: double.infinity,
+//                     height: 56,
+//                     child: ElevatedButton(
+//                      onPressed: () async {
+//   if (!_agreedToTerms) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       const SnackBar(
+//         content: Text('يرجى الموافقة على الشروط والأحكام'),
+//         backgroundColor: Colors.red,
+//       ),
+//     );
+//     return;
+//   }
 
-  bool success = await signUp();
-  if (success) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomePage(
-          userName: _nameController.text.trim(),
-          childName: _childNameController.text.trim(),
-          childBirth: _childBirthController.text.trim(),
-        ),
-
-
-      ),
-    );
-  }
-},
-                      style: ElevatedButton.styleFrom(
+//   bool success = await signUp();
+//   if (success) {
+//     Navigator.push(
+//       context,
+//       MaterialPageRoute(
+//         builder: (context) => HomePage(
+//           userName: _nameController.text.trim(),
+//           childName: _childNameController.text.trim(),
+//           childBirth: _childBirthController.text.trim(),
+//         ),
 
 
-                        backgroundColor: const Color(0xFFFF9E8B),
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(28),
-                        ),
-                        elevation: 0,
-                      ),
-                      child: const Text(
-                        'متابعة',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
+//       ),
+//     );
+//   }
+// },
+//                       style: ElevatedButton.styleFrom(
 
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hint,
-    required IconData icon,
-    TextInputType keyboardType = TextInputType.text,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        textAlign: TextAlign.right,
-        style: const TextStyle(fontSize: 16),
-        decoration: InputDecoration(
-          hintText: hint,
-          hintStyle: TextStyle(
-            color: Colors.grey[400],
-            fontSize: 15,
-          ),
-          prefixIcon: Icon(icon, color: Colors.grey[400]),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 16,
-          ),
-        ),
-      ),
-    );
+//                         backgroundColor: const Color(0xFFFF9E8B),
+//                         foregroundColor: Colors.white,
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(28),
+//                         ),
+//                         elevation: 0,
+//                       ),
+//                       child: const Text(
+//                         'متابعة',
+//                         style: TextStyle(
+//                           fontSize: 18,
+//                           fontWeight: FontWeight.w600,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+
+//                   const SizedBox(height: 20),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   Widget _buildTextField({
+//     required TextEditingController controller,
+//     required String hint,
+//     required IconData icon,
+//     TextInputType keyboardType = TextInputType.text,
+//   }) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(30),
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.black.withOpacity(0.05),
+//             blurRadius: 10,
+//             offset: const Offset(0, 2),
+//           ),
+//         ],
+//       ),
+//       child: TextField(
+//         controller: controller,
+//         keyboardType: keyboardType,
+//         textAlign: TextAlign.right,
+//         style: const TextStyle(fontSize: 16),
+//         decoration: InputDecoration(
+//           hintText: hint,
+//           hintStyle: TextStyle(
+//             color: Colors.grey[400],
+//             fontSize: 15,
+//           ),
+//           prefixIcon: Icon(icon, color: Colors.grey[400]),
+//           border: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(30),
+//             borderSide: BorderSide.none,
+//           ),
+//           contentPadding: const EdgeInsets.symmetric(
+//             horizontal: 20,
+//             vertical: 16,
+//           ),
+//         ),
+//       ),
+//     );
 
 
 
     
-  }
+//   }
 
-Future<bool> signUp() async {
-  final name = _nameController.text.trim();
-  final email = _emailController.text.trim();
-  final password = _passwordController.text.trim();
-  final childName = _childNameController.text.trim();
-  final childBirth = _childBirthController.text.trim();
+// Future<bool> signUp() async {
+//   final name = _nameController.text.trim();
+//   final email = _emailController.text.trim();
+//   final password = _passwordController.text.trim();
+//   final childName = _childNameController.text.trim();
+//   final childBirth = _childBirthController.text.trim();
 
-  if (name.isEmpty ||
-      email.isEmpty ||
-      password.isEmpty ||
-      childName.isEmpty ||
-      childBirth.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('يرجى ملء جميع الحقول')),
-    );
-    return false;
-  }
+//   if (name.isEmpty ||
+//       email.isEmpty ||
+//       password.isEmpty ||
+//       childName.isEmpty ||
+//       childBirth.isEmpty) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       const SnackBar(content: Text('يرجى ملء جميع الحقول')),
+//     );
+//     return false;
+//   }
 
-  if (!email.contains('@')) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('يرجى إدخال بريد إلكتروني صالح')),
-    );
-    return false;
-  }
+//   if (!email.contains('@')) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       const SnackBar(content: Text('يرجى إدخال بريد إلكتروني صالح')),
+//     );
+//     return false;
+//   }
 
 
-  DateTime? birthDate;
-  try {
-    birthDate = DateTime.parse(childBirth);
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('تاريخ الميلاد غير صالح')),
-    );
-    return false;
-  }
+//   DateTime? birthDate;
+//   try {
+//     birthDate = DateTime.parse(childBirth);
+//   } catch (e) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       const SnackBar(content: Text('تاريخ الميلاد غير صالح')),
+//     );
+//     return false;
+//   }
 
-  try {
-    final userCredential = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+//   try {
+//     final userCredential = await _auth.createUserWithEmailAndPassword(
+//       email: email,
+//       password: password,
+//     );
 
-    final user = userCredential.user;
-    if (user != null) {
-      final today = DateTime.now();
-      final age = today.year - birthDate.year -
-          ((today.month < birthDate.month ||
-                  (today.month == birthDate.month &&
-                      today.day < birthDate.day))
-              ? 1
-              : 0);
+//     final user = userCredential.user;
+//     if (user != null) {
+//       final today = DateTime.now();
+//       final age = today.year - birthDate.year -
+//           ((today.month < birthDate.month ||
+//                   (today.month == birthDate.month &&
+//                       today.day < birthDate.day))
+//               ? 1
+//               : 0);
 
-      await _firestore.collection('users').doc(user.uid).set({
-        'name': name,
-        'email': email,
-        'childName': childName,
-        'birthdate': childBirth,
-        'age': age,
-      });
+//       await _firestore.collection('users').doc(user.uid).set({
+//         'name': name,
+//         'email': email,
+//         'childName': childName,
+//         'birthdate': childBirth,
+//         'age': age,
+//       });
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('تم إنشاء الحساب بنجاح!')),
-      );
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         const SnackBar(content: Text('تم إنشاء الحساب بنجاح!')),
+//       );
 
-      return true;
-    }
-    return false;
-  } on FirebaseAuthException catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(e.message ?? 'حدث خطأ')),
-    );
-    return false;
-  } catch (e) {
-    print('Other Exception: $e');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('حدث خطأ غير متوقع')),
-    );
-    return false;
-  }
-}
-}
+//       return true;
+//     }
+//     return false;
+//   } on FirebaseAuthException catch (e) {
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       SnackBar(content: Text(e.message ?? 'حدث خطأ')),
+//     );
+//     return false;
+//   } catch (e) {
+//     print('Other Exception: $e');
+//     ScaffoldMessenger.of(context).showSnackBar(
+//       const SnackBar(content: Text('حدث خطأ غير متوقع')),
+//     );
+//     return false;
+//   }
+// }
+// }
 
 
 
