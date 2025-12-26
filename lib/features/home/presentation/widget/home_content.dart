@@ -1,9 +1,8 @@
-// ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:mamyapp/features/chatbot/presentation/pages/chatBot.dart';
 import 'package:mamyapp/features/home/presentation/widget/menu_card.dart';
-import 'package:mamyapp/features/story_telling/presentation/pages/voice_cloning.dart';
+import 'package:mamyapp/features/story_telling/presentation/pages/choose_story.dart';
 
 class HomeContent extends StatelessWidget {
   final String userName;
@@ -166,7 +165,7 @@ class HomeContent extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const VoiceCloningScreen(),
+                          builder: (context) => const ChooseStory(),
                         ),
                       );
                     },
@@ -179,7 +178,9 @@ class HomeContent extends StatelessWidget {
                     imageAsset: 'assets/images/13 (1).png',
                     title: 'حللي بكاء طفلك',
                     subtitle: 'سجلي صوت طفلك لتحليل سبب بكائه فوريا',
-                    onTap: () {},
+                    onTap: () {
+                      
+                    },
                   ),
                 ],
               ),

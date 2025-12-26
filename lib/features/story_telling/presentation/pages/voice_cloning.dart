@@ -1,7 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:mamyapp/features/story_telling/presentation/pages/voice_recording.dart';
+import 'package:mamyapp/features/story_telling/presentation/pages/virtual_Voice_preview_screen.dart';
+import 'package:mamyapp/features/story_telling/presentation/pages/voice_recording_guide.dart';
 
 class VoiceCloningScreen extends StatefulWidget {
   const VoiceCloningScreen({super.key});
@@ -25,7 +26,7 @@ class _VoiceCloningScreenState extends State<VoiceCloningScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text(
-          'استنساخ نبرة الصوت الخاصه بك',
+          'اختاري نوع الصوت للقصص',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -116,12 +117,14 @@ class _VoiceCloningScreenState extends State<VoiceCloningScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     // Play default voice action
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('تشغيل الصوت الافتراضي...'),
-                        duration: Duration(seconds: 2),
-                      ),
-                    );
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   const SnackBar(
+                    //     content: Text('تشغيل الصوت الافتراضي...'),
+                    //     duration: Duration(seconds: 2),
+                    //   ),
+                    // );
+
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => VirtualVoicePreviewScreen(),));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,

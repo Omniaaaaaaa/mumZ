@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:mamyapp/features/onboarding/presentation/login1.dart';
 
 
 class Walkthrough3Screen extends StatelessWidget {
@@ -96,11 +97,10 @@ class Walkthrough3Screen extends StatelessWidget {
                 height: 56,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigate to home screen
-                    // Navigator.of(context).pushReplacement(
-                    //   MaterialPageRoute(
-                    //     builder: (context) => const WelcomeScreen(),                      ),
-                    // );
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                        builder: (context) => const WelcomeScreen(),                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFFF9E8B),

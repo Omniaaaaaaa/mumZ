@@ -5,15 +5,15 @@ import 'package:mamyapp/features/setting/presentation/pages/settings_screen.dart
 import '../../../notifiction/presentation/pages/notifications_screen.dart';
 
 class HomePage extends StatefulWidget {
-  final String userName;
-  final String childName;
-  final String childBirth;
+  final String? userName;
+  final String ?childName;
+  final String ?childBirth;
 
   const HomePage({
     super.key,
-    required this.userName,
-    required this.childName,
-    required this.childBirth,
+     this.userName,
+     this.childName,
+     this.childBirth,
   });
 
   @override
@@ -27,9 +27,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final List<Widget> pages = [
       HomeContent(
-        userName: widget.userName,
-        childName: widget.childName,
-        childBirth: widget.childBirth,
+        userName: widget.userName ??'',
+        childName: widget.childName ??'',
+        childBirth: widget.childBirth??'',
       ),
       const SettingsScreen(),
       const NotificationsScreen(),
@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       endDrawer: CustomDrawer(
-        userName: widget.userName,
+        userName: widget.userName??'',
         selectedIndex: selectedIndex,
         onItemTap: (index) {
           setState(() {
