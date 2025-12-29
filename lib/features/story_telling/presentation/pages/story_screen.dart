@@ -6,8 +6,9 @@ import 'package:mamyapp/features/story_telling/presentation/widget/default_butto
 
 class StoryScreen extends StatelessWidget {
     final int storyId;
+       final String title;
 
-  const StoryScreen({super.key, required this.storyId});
+  const StoryScreen({super.key, required this.storyId, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,13 @@ class StoryScreen extends StatelessWidget {
               height: 50,
               child: DefaultButtonStory(text: 'بدء تسجيل القصة', onClick: (){
 
-                Navigator.push(context, MaterialPageRoute(builder: (context) => VoiceCloningScreen(),));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => VoiceCloningScreen(
+                  title: title,
+                  
+            storyId: storyId, 
+            storyText: story.content, 
+        
+                ),));
               })
             ),
           ],

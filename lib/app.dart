@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mamyapp/features/story_telling/presentation/bloc/audio/audio_bloc.dart';
+import 'package:mamyapp/features/story_telling/presentation/bloc/speaker/speaker_bloc.dart';
 import 'package:mamyapp/features/story_telling/presentation/pages/choose_story.dart';
 import 'package:mamyapp/core/di/injection_container.dart' as di;
 
@@ -13,6 +14,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AudioBloc>(
           create: (_) => di.sl<AudioBloc>(),
+        ),
+
+        BlocProvider<SpeakerBloc>(
+          create: (_) => di.sl<SpeakerBloc>(),
         ),
 
         // 👇 بعدين تزودي أي Bloc تاني هنا

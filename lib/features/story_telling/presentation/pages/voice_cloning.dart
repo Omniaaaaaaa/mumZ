@@ -5,7 +5,11 @@ import 'package:mamyapp/features/story_telling/presentation/pages/virtual_Voice_
 import 'package:mamyapp/features/story_telling/presentation/pages/voice_recording_guide.dart';
 
 class VoiceCloningScreen extends StatefulWidget {
-  const VoiceCloningScreen({super.key});
+  final int storyId;
+  final String storyText;
+    final String title;
+
+  const VoiceCloningScreen({super.key, required this.storyId, required this.storyText, required this.title});
 
   @override
   State<VoiceCloningScreen> createState() => _VoiceCloningScreenState();
@@ -65,7 +69,7 @@ class _VoiceCloningScreenState extends State<VoiceCloningScreen> {
                 ),
                 child: Center(
                   child: Image.asset(
-                    'assets/headphones.png', // استخدمي أيقونة السماعات
+                    'assets/images/headphone.png', // استخدمي أيقونة السماعات
                     width: 70,
                     height: 70,
                     errorBuilder: (context, error, stackTrace) {
@@ -116,15 +120,13 @@ class _VoiceCloningScreenState extends State<VoiceCloningScreen> {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Play default voice action
-                    // ScaffoldMessenger.of(context).showSnackBar(
-                    //   const SnackBar(
-                    //     content: Text('تشغيل الصوت الافتراضي...'),
-                    //     duration: Duration(seconds: 2),
-                    //   ),
-                    // );
+                
 
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => VirtualVoicePreviewScreen(),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => VirtualVoicePreviewScreen(
+                      title: widget.title,
+                      storyId: widget.storyId,
+        storyText: widget.storyText,
+                    ),));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,
@@ -246,7 +248,11 @@ class _VoiceCloningScreenState extends State<VoiceCloningScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const VoiceGuideScreen(),
+                        builder: (context) => VoiceGuideScreen(
+                          title: widget.title,
+                          storyId: widget.storyId,
+        storyText: widget.storyText,
+                        ),
                       ),
                     );
                   },

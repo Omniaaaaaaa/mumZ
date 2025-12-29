@@ -50,7 +50,8 @@ class ChooseStory extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const StoryScreen(storyId: 1),
+                    builder: (_) => const StoryScreen(storyId: 1,      title: '🐢 رِحْلَةُ تُوتُو البَطِيء – قِصَّةٌ قَبْلَ النَّوْم',
+),
                   ),
                 );
               },
@@ -68,7 +69,9 @@ class ChooseStory extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const StoryScreen(storyId: 2),
+                    builder: (_) => const StoryScreen(storyId: 2,           title: '🐋 لُولُو الحُوتُ الصَّغِير الَّذِي يَخَافُ مِنَ الأَعْمَاق',
+
+),
                   ),
                 );
               },
@@ -84,7 +87,8 @@ class ChooseStory extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const StoryScreen(storyId: 1),
+                    builder: (_) => const StoryScreen(storyId: 3,       title: '🐢 مُغَامَرَاتُ السَّلْحَفَاةِ تُوبِي',
+),
                   ),
                 );
               },

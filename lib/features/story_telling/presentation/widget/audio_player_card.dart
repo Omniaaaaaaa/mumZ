@@ -12,7 +12,27 @@ class AudioPlayerCard extends StatefulWidget {
 
 class _AudioPlayerCardState extends State<AudioPlayerCard> {
   final AudioPlayer _player = AudioPlayer();
-  bool isPlaying = false;
+  bool isReady = false;
+
+  @override
+  void initState() {
+    super.initState();
+      print("AUDIO URL => ${widget.audioUrl}");
+
+    _initPlayer();
+  }
+
+  Future<void> _initPlayer() async {
+  try {
+    print("حاول تحميل الصوت من URL: ${widget.audioUrl}");
+    await _player.setUrl(widget.audioUrl);
+    setState(() {
+      isReady = true;
+    });
+  } catch (e) {
+    debugPrint('Audio load error: $e');
+  }
+}
 
   @override
   void dispose() {
@@ -26,37 +46,42 @@ class _AudioPlayerCardState extends State<AudioPlayerCard> {
       width: 320,
       padding: const EdgeInsets.symmetric(vertical: 20),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFE7D8),
+        color: const Color(0xFFFFF8F4),
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Color(0xffFBDECD)),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 4),
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 16
+          )
+        ]
       ),
+
+      
       child: Column(
         children: [
-          const Text(
-            "استمعي إلى النموذج",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 12),
-          IconButton(
+              IconButton(
             iconSize: 55,
             icon: Icon(
-              isPlaying ? Icons.pause_circle : Icons.play_circle,
-              color: Colors.orange,
+              _player.playing ? Icons.pause_circle : Icons.play_circle,
+              color: Color(0xffFFC7AE),
             ),
-            onPressed: () async {
-              if (!isPlaying) {
-                await _player.setUrl(widget.audioUrl);
-                _player.play();
-              } else {
-                await _player.pause();
-              }
+           onPressed: !isReady
+    ? null
+    : () async {
+        if (_player.playing) {
+          await _player.pause();
+        } else {
+          // 👇 الحل هنا
+          if (_player.processingState == ProcessingState.completed) {
+            await _player.seek(Duration.zero);
+          }
+          await _player.play();
+        }
+        setState(() {});
+      },
 
-              setState(() {
-                isPlaying = !isPlaying;
-              });
-            },
           ),
         ],
       ),

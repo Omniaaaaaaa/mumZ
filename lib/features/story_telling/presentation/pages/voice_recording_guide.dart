@@ -2,11 +2,15 @@
 
 import 'package:flutter/material.dart';
 
-import 'recording.dart';
+import 'voice_recording_speaker_page.dart';
 
 class VoiceGuideScreen extends StatelessWidget {
+    final int storyId;
+  final String storyText;
+    final String title;
+
   // ignore: use_super_parameters
-  const VoiceGuideScreen({Key? key}) : super(key: key);
+  const VoiceGuideScreen({Key? key, required this.storyId, required this.storyText, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +119,11 @@ class VoiceGuideScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const VoiceRecordingPage(),
+                        builder: (context) =>  VoiceRecordingPage(
+                          title: title,
+                                storyId: storyId,
+        storyText: storyText,
+                        ),
                       ),
                     );
 

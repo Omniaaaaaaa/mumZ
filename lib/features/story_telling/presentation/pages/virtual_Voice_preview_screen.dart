@@ -5,11 +5,16 @@ import 'package:just_audio/just_audio.dart';
 import 'package:mamyapp/features/story_telling/presentation/bloc/audio/audio_bloc.dart';
 import 'package:mamyapp/features/story_telling/presentation/bloc/audio/audio_event.dart';
 import 'package:mamyapp/features/story_telling/presentation/bloc/audio/audio_state.dart';
+import 'package:mamyapp/features/story_telling/presentation/pages/voice_processing_audio_screen.dart';
 import 'package:mamyapp/features/story_telling/presentation/widget/audio_player_card.dart';
 import 'package:mamyapp/features/story_telling/presentation/widget/default_button_story.dart';
 
 class VirtualVoicePreviewScreen extends StatefulWidget {
-  const VirtualVoicePreviewScreen({super.key});
+  final int storyId;
+  final String storyText;
+    final String title;
+
+  const VirtualVoicePreviewScreen({super.key, required this.storyId, required this.storyText, required this.title});
 
   @override
   State<VirtualVoicePreviewScreen> createState() =>
@@ -21,12 +26,17 @@ class _VirtualVoicePreviewScreenState
   final AudioPlayer _player = AudioPlayer();
   bool isPlaying = false;
 
+
+
   @override
   void initState() {
     super.initState();
 
     context.read<AudioBloc>().add(
           SynthesizeStoryEvent(
+                  storyId: widget.storyId, 
+
+            
             text: "مرحبًا، هذا نموذج صوت افتراضي لسرد القصص",
           ),
         );
@@ -83,6 +93,24 @@ class _VirtualVoicePreviewScreenState
 
             Image.asset('assets/images/headphone.png'),
 
+
+             Padding(
+               padding: const EdgeInsets.only(top: 20,bottom: 20),
+               child: SizedBox(
+                width: 320,
+                child: Text(
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.center,
+                  "استمعي الى النماذج",
+                  style: const TextStyle(
+                    color: Color(0xff4A4A4A),
+                    fontSize: 22,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                           ),
+             ),
+
             const SizedBox(height: 40),
 
           BlocBuilder<AudioBloc, AudioState>(
@@ -92,18 +120,28 @@ class _VirtualVoicePreviewScreenState
     }
 
     if (state is AudioSuccess) {
-      // هنا صح: state.audio.audioUrl
       return Column(
         children: [
           AudioPlayerCard(audioUrl: state.audio.audioUrl),
 
 
-          SizedBox(
-            width: 260,
-            height: 72,
-            child: DefaultButtonStory(text: 'استخدام الصوت', onClick: (){
-            
-            }),
+          Padding(
+               padding: const EdgeInsets.only(top: 40,bottom: 20),
+            child: SizedBox(
+              width: 260,
+              height: 72,
+              child: DefaultButtonStory(text: 'استخدام الصوت', onClick: (){
+              
+                  Navigator.push(
+                    context,
+                MaterialPageRoute(
+            builder: (_) => VoiceProcessingScreen(
+              title: widget.title,
+              storyId: widget.storyId,
+              storyText: widget.storyText,
+            ),
+            ));}),
+            ),
           )
         ],
       );

@@ -5,7 +5,6 @@ class UploadSpeakersEvent extends SpeakerEvent {
   UploadSpeakersEvent({required this.filePaths});
 }
 
-// Internal event لتحميل Paths المحفوظة عند البداية
 class LoadSavedSpeakerPathsEvent extends SpeakerEvent {
   final List<String> paths;
   LoadSavedSpeakerPathsEvent(this.paths);
