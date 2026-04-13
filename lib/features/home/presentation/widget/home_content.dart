@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:mamyapp/features/chatbot/presentation/pages/chatBot.dart';
+import 'package:mamyapp/features/cry_prediction/presentation/pages/cry_page.dart';
 import 'package:mamyapp/features/home/presentation/widget/menu_card.dart';
 import 'package:mamyapp/features/story_telling/presentation/pages/choose_story.dart';
 
@@ -180,6 +181,12 @@ class HomeContent extends StatelessWidget {
                     title: 'حللي بكاء طفلك',
                     subtitle: 'سجلي صوت طفلك لتحليل سبب بكائه فوريا',
                     onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const CryPage(),
+                        ),
+                      );
                       
                     },
                   ),

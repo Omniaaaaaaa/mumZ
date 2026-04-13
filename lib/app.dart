@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mamyapp/features/cry_prediction/presentation/pages/cry_page.dart';
+import 'package:mamyapp/features/cry_prediction/presentation/pages/result_cry_prediction.dart';
+import 'package:mamyapp/features/home/presentation/pages/home_page.dart';
 import 'package:mamyapp/features/story_telling/presentation/bloc/audio/audio_bloc.dart';
 import 'package:mamyapp/features/story_telling/presentation/bloc/speaker/speaker_bloc.dart';
 import 'package:mamyapp/features/story_telling/presentation/pages/choose_story.dart';
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           scaffoldBackgroundColor: const Color(0xFFFDFBF7),
         ),
-        home: ChooseStory(),
+        home: ResultCryPrediction(),
       ),
     );
   }
